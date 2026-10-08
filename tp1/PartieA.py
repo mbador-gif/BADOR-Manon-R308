@@ -1,4 +1,4 @@
-# création d'un dictionnaire qui stocke des noms et des notes d'étudiants
+# création d'un dictionnaire qui stocke les noms et les notes d'étudiants
 d = {'Alice': 12, 'Bob': 15, 'Claire': 9.5}
 
 def ajouter_etudiant(d, nom, note):
