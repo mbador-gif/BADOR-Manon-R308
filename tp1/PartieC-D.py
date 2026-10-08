@@ -31,18 +31,18 @@ def pendu():
         
         lettre = input("Proposez une lettre : ").upper()         # demande à entrer une lettre
 
-        if len(lettre) != 1 or not lettre.isalpha():
+        if len(lettre) != 1 or not lettre.isalpha():             # vérifie si l'entrée est une seule lettre
             print("Entrez une seule lettre.")
             continue
-        if lettre in lettres_utilise:
+        if lettre in lettres_utilise:                            # vérifie si la lettre a déjà été proposée
             print("Vous avez déjà proposé cette lettre.")
             continue
-        lettres_utilise.append(lettre)
+        lettres_utilise.append(lettre)                           # ajoute la lettre à la liste des lettres utilisées
 
         if lettre in mot:                   # vérifie si la lettre est dans le mot
-            for i in range(len(mot)):
+            for i in range(len(mot)):       # verifie chaque lettre du mot
                 if mot[i] == lettre:
-                    mot_masque = mot_masque[:i] + lettre + mot_masque[i+1:]
+                    mot_masque = mot_masque[:i] + lettre + mot_masque[i+1:]   # remplace le tiret par la lettre proposée
             print("Bien joué !")
         else:
             print("Raté")
