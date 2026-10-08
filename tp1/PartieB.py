@@ -29,5 +29,5 @@ def nombre_secret():
     if input("Voulez-vous rejouer ? (oui/non) ").lower() == "oui":  # demande à l'utilisateur s'il veut rejouer
         nombre_secret()                                        # relance la fonction si l'utilisateur veut rejouer
 
-# test de la fonction 
+# test de la fonction nombre_secret() 
 nombre_secret()
