@@ -80,8 +80,8 @@ class JoueurHumain:
     def prochain_coup(self, tab, symbole):
         print("C'est au tour du joueur", symbole)
 
-        x = int(input("Choisir une ligne (0-2) : "))
-        y = int(input("Choisir une colonne (0-2) : "))
+        x = int(input("Choisir une ligne (0-2) : "))     # Choisir la ligne à jouer
+        y = int(input("Choisir une colonne (0-2) : "))   # Choisir la colonne à jouer
 
         return (x, y)
 
