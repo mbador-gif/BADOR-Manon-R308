@@ -212,7 +212,6 @@ g.afficher()
 """
 
 
-
 # TEST PARTIE C
 partie()
 
