@@ -1,3 +1,5 @@
+import random
+
 
 # ------- PARTIE A -------------------------------------------------------------------------
 class Grille:
@@ -101,6 +103,58 @@ class JoueurIA:
 
 
 
+# ------- PARTIE C -------------------------------------------------------------------------
+def partie():
+    g = Grille()
+
+    joueur_X = JoueurHumain()
+    joueur_O = JoueurIA()
+
+    joueur_actuel = "X"
+
+    while True:
+        print("\n=== TOUR DU JOUEUR", joueur_actuel, "===")
+        g.afficher()
+
+        # Choisir le joueur qui doit jouer
+        if joueur_actuel == "X":
+            joueur = joueur_X
+        else:
+            joueur = joueur_O
+
+        # Demander son prochain coup
+        coup = joueur.prochain_coup(g, joueur_actuel)
+
+        if coup is None:
+            print("Match nul !")
+            break
+
+        x, y = coup
+
+        # Vérifier si le coup est valide
+        if not g.jouer(x, y, joueur_actuel):
+            print("Coup invalide, réessaie.")
+            continue
+
+        # Vérifier si le joueur a gagné
+        if g.est_gagnant(joueur_actuel):
+            g.afficher()
+            print("Le joueur", joueur_actuel, "a gagné !")
+            break
+
+        # Vérifier si la grille est pleine
+        if g.est_plein():
+            g.afficher()
+            print("Match nul !")
+            break
+
+        # Changer de joueur
+        if joueur_actuel == "X":
+            joueur_actuel = "O"
+        else:
+            joueur_actuel = "X"
+
+
 # TESTS PARTIE A
 """
 g = Grille()
@@ -134,7 +188,6 @@ g.afficher()
 
 
 
-
 # TESTS PARTIE B
 """
 g = Grille()
@@ -160,4 +213,6 @@ g.afficher()
 
 
 
+# TEST PARTIE C
+partie()
 
