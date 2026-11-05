@@ -280,6 +280,105 @@ class Bibliotheque:
 
 
 
+# -------------- PARTIE D -------------------------------------------------------------------------
+
+def menu():
+
+    # Création de la bibliothèque
+    biblio = Bibliotheque()
+
+    # Charge les données sauvegardées au démarrage
+    biblio.charger_csv("livres.csv")
+
+    # Boucle qui permet d'afficher le menu en continu
+    while True:
+
+        # Affichage des différentes options
+        print("\n===== MENU BIBLIOTHÈQUE =====")
+        print("1. Ajouter un livre")
+        print("2. Ajouter un utilisateur")
+        print("3. Emprunter un livre")
+        print("4. Rendre un livre")
+        print("5. Afficher les livres")
+        print("6. Quitter et sauvegarder")
+
+        # Demande à l'utilisateur de choisir une option
+        choix = input("Votre choix : ")
+
+        # OPTION 1 : Ajouter un livre
+        if choix == "1":
+
+            # Demande les informations du livre
+            titre = input("Titre du livre : ")
+            auteur = input("Auteur du livre : ")
+            annee = input("Année de publication : ")
+
+            # Vérifie si l'année contient uniquement des chiffres
+            if annee.isdigit():
+
+                # Création du livre avec l'année en entier
+                livre = Livre(titre, auteur, int(annee))
+
+                # Ajout du livre dans la bibliothèque
+                biblio.ajouter_livre(livre)
+
+            else:
+                print("Erreur : l'année doit être un nombre.")
+
+        # OPTION 2 : Ajouter un utilisateur
+        elif choix == "2":
+
+            # Demande le nom de l'utilisateur
+            nom = input("Nom de l'utilisateur : ")
+
+            # Création de l'utilisateur
+            utilisateur = Utilisateur(nom)
+
+            # Ajout dans la bibliothèque
+            biblio.ajouter_utilisateur(utilisateur)
+
+        # OPTION 3 : Emprunter un livre
+        elif choix == "3":
+
+            # Demande le nom et le titre du livre
+            nom = input("Nom de l'utilisateur : ")
+            titre = input("Titre du livre : ")
+
+            # Appelle la méthode emprunter
+            biblio.emprunter(nom, titre)
+
+        # OPTION 4 : Rendre un livre
+        elif choix == "4":
+
+            # Demande le nom et le titre du livre
+            nom = input("Nom de l'utilisateur : ")
+            titre = input("Titre du livre : ")
+
+            # Appelle la méthode rendre
+            biblio.rendre(nom, titre)
+
+        # OPTION 5 : Afficher les livres
+        elif choix == "5":
+
+            # Affiche tous les livres de la bibliothèque
+            biblio.afficher_livres()
+
+        # OPTION 6 : Quitter et sauvegarder
+        elif choix == "6":
+
+            # Sauvegarde les livres dans le fichier CSV
+            biblio.sauvegarder_csv("livres.csv")
+
+            print("Fermeture du programme.")
+
+            # Arrête la boucle et quitte le menu
+            break
+
+        # Si l'utilisateur entre un choix incorrect
+        else:
+            print("Choix invalide, veuillez réessayer.")
+
+
 
 # Tests de la Partie A
 """
@@ -321,6 +420,7 @@ biblio.emprunter("Léo", "1984")
 
 
 # Tests de la Partie C
+"""
 biblio = Bibliotheque()
 livre = Livre("1984", "Orwell", 1949)
 ana = Utilisateur("Ana")
@@ -339,3 +439,11 @@ nouvelle_biblio.afficher_livres()
 nouvelle_biblio.rendre("Ana", "1984")
 nouvelle_biblio.afficher_livres()
 
+"""
+
+
+# Tests de la Partie D
+"""
+menu()
+
+"""
