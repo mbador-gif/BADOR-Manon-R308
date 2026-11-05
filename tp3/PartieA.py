@@ -1,3 +1,4 @@
+# -------------- PARTIE A -------------------------------------------------------------------------
 
 class Livre:
     # Constructeur de la classe Livre
@@ -92,8 +93,139 @@ class Utilisateur:
                 print(f"- {livre.titre}")
 
 
+# -------------- PARTIE B -------------------------------------------------------------------------
+
+class Bibliotheque:
+
+    # Constructeur de la bibliothèque
+    def __init__(self):
+
+        # Dictionnaire contenant les livres
+        # La clé est le titre et la valeur est un objet Livre
+        self.livres = {}
+
+        # Dictionnaire contenant les utilisateurs
+        # La clé est le nom et la valeur est un objet Utilisateur
+        self.utilisateurs = {}
+
+    # Ajouter un livre dans la bibliothèque
+    def ajouter_livre(self, livre):
+
+        # Vérifie si le livre existe déjà
+        if livre.titre in self.livres:
+            print("Ce livre existe déjà.")
+            return False
+
+        # Ajoute le livre dans le dictionnaire
+        self.livres[livre.titre] = livre
+        print("Livre ajouté avec succès.")
+        return True
+
+    # Ajouter un utilisateur dans la bibliothèque
+    def ajouter_utilisateur(self, utilisateur):
+
+        # Vérifie si l'utilisateur existe déjà
+        if utilisateur.nom in self.utilisateurs:
+            print("Cet utilisateur existe déjà.")
+            return False
+
+        # Ajoute l'utilisateur au dictionnaire
+        self.utilisateurs[utilisateur.nom] = utilisateur
+        print("Utilisateur ajouté avec succès.")
+        return True
+
+    # Permet à un utilisateur d'emprunter un livre
+    def emprunter(self, nom, titre):
+
+        # Vérifie si l'utilisateur existe
+        if nom not in self.utilisateurs:
+            print("Utilisateur inconnu.")
+            return False
+
+        # Vérifie si le livre existe
+        if titre not in self.livres:
+            print("Livre inconnu.")
+            return False
+
+        # Récupère l'utilisateur et le livre
+        utilisateur = self.utilisateurs[nom]
+        livre = self.livres[titre]
+
+        # Appelle la méthode de la classe Utilisateur
+        return utilisateur.emprunter_livre(livre)
+
+    # Permet à un utilisateur de rendre un livre
+    def rendre(self, nom, titre):
+
+        # Vérifie si l'utilisateur existe
+        if nom not in self.utilisateurs:
+            print("Utilisateur inconnu.")
+            return False
+
+        # Vérifie si le livre existe
+        if titre not in self.livres:
+            print("Livre inconnu.")
+            return False
+
+        # Récupère l'utilisateur et le livre
+        utilisateur = self.utilisateurs[nom]
+        livre = self.livres[titre]
+
+        # Appelle la méthode pour rendre le livre
+        return utilisateur.rendre_livre(livre)
+
+    # Affiche tous les livres de la bibliothèque
+    def afficher_livres(self):
+
+        # Vérifie si la bibliothèque est vide
+        if not self.livres:
+            print("Aucun livre dans la bibliothèque.")
+            return
+
+        print("Liste des livres :")
+
+        # Parcourt tous les livres du dictionnaire
+        for livre in self.livres.values():
+
+            # Utilise la méthode afficher de Livre
+            livre.afficher()
+
+
+
 # Tests de la Partie A
+"""
 l = Livre("1984", "Orwell", 1949)
 print(l.emprunter("Anna"))
 print(l.emprunter("Léo"))
 print(l.rendre())
+
+"""
+
+
+# Tests de la Partie B
+"""
+biblio = Bibliotheque()
+livre = Livre("1984", "Orwell", 1949)
+ana = Utilisateur("Ana")
+leo = Utilisateur("Léo")
+
+# Ajout du livre et des utilisateurs
+biblio.ajouter_livre(livre)
+biblio.ajouter_utilisateur(ana)
+biblio.ajouter_utilisateur(leo)
+
+# Nom inconnu
+print("\n--- Test nom inconnu ---")
+biblio.emprunter("Paul", "1984")
+
+# Titre inconnu
+print("\n--- Test titre inconnu ---")
+biblio.emprunter("Ana", "Harry Potter")
+
+# Livre déjà emprunté
+print("\n--- Test livre déjà emprunté ---")
+biblio.emprunter("Ana", "1984")
+biblio.emprunter("Léo", "1984")
+
+"""
+
