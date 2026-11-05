@@ -83,7 +83,7 @@ class Utilisateur:
     def afficher_emprunts(self):
         print(f"Livres empruntés par {self.nom} :")
 
-        # Si la liste est vide
+        # Si la liste des emprunts est vide, on affiche un message
         if not self.emprunts:
             print("Aucun livre emprunté.")
         else:
