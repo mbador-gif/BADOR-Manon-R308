@@ -1,3 +1,6 @@
+import csv
+
+
 # -------------- PARTIE A -------------------------------------------------------------------------
 
 class Livre:
@@ -192,6 +195,92 @@ class Bibliotheque:
 
 
 
+# -------------- PARTIE C -------------------------------------------------------------------------
+
+    # Sauvegarde les livres dans un fichier CSV
+    def sauvegarder_csv(self, fichier):
+
+        # Ouvre le fichier en mode écriture
+        with open(fichier, "w", newline="", encoding="utf-8") as f:
+
+            # Création de l'objet qui écrit dans le CSV
+            writer = csv.writer(f)
+
+            # Écriture des noms des colonnes
+            writer.writerow(["titre", "auteur", "annee",
+                             "disponible", "emprunteur"])
+
+            # Parcourt tous les livres de la bibliothèque
+            for livre in self.livres.values():
+
+                # Écrit les informations de chaque livre
+                writer.writerow([
+                    livre.titre,
+                    livre.auteur,
+                    livre.annee,
+                    livre.disponible,
+                    livre.emprunteur if livre.emprunteur else ""
+                ])
+
+        print("Sauvegarde effectuée.")
+
+
+
+    # Charge les livres depuis un fichier CSV
+    def charger_csv(self, fichier):
+
+        try:
+            # Ouvre le fichier en mode lecture
+            with open(fichier, "r", encoding="utf-8") as f:
+
+                # Lit le CSV en utilisant les noms des colonnes
+                reader = csv.DictReader(f)
+
+                # Réinitialise les livres et les utilisateurs
+                self.livres = {}
+                self.utilisateurs = {}
+
+                # Parcourt chaque ligne du fichier
+                for ligne in reader:
+
+                    # Crée un livre avec les données du CSV
+                    livre = Livre(
+                        ligne["titre"],
+                        ligne["auteur"],
+                        int(ligne["annee"])
+                    )
+
+                    # Récupère l'état du livre
+                    livre.disponible = ligne["disponible"] == "True"
+
+                    # Récupère le nom de l'emprunteur
+                    nom = ligne["emprunteur"]
+
+                    # Si le livre est emprunté
+                    if not livre.disponible and nom:
+
+                        # Enregistre le nom de l'emprunteur
+                        livre.emprunteur = nom
+
+                        # Crée l'utilisateur s'il n'existe pas
+                        if nom not in self.utilisateurs:
+                            self.utilisateurs[nom] = Utilisateur(nom)
+
+                        # Ajoute le livre à ses emprunts
+                        self.utilisateurs[nom].emprunts.append(livre)
+
+                    # Ajoute le livre dans la bibliothèque
+                    self.livres[livre.titre] = livre
+
+            print("Chargement effectué.")
+
+        # Si le fichier CSV n'existe pas
+        except FileNotFoundError:
+            print("Aucune sauvegarde trouvée.")
+
+
+
+
 # Tests de la Partie A
 """
 l = Livre("1984", "Orwell", 1949)
@@ -228,4 +317,25 @@ biblio.emprunter("Ana", "1984")
 biblio.emprunter("Léo", "1984")
 
 """
+
+
+
+# Tests de la Partie C
+biblio = Bibliotheque()
+livre = Livre("1984", "Orwell", 1949)
+ana = Utilisateur("Ana")
+
+biblio.ajouter_livre(livre)
+biblio.ajouter_utilisateur(ana)
+biblio.emprunter("Ana", "1984")
+biblio.sauvegarder_csv("livres.csv")
+
+# Création d'une nouvelle bibliothèque
+nouvelle_biblio = Bibliotheque()
+
+# Chargement des données sauvegardées
+nouvelle_biblio.charger_csv("livres.csv")
+nouvelle_biblio.afficher_livres()
+nouvelle_biblio.rendre("Ana", "1984")
+nouvelle_biblio.afficher_livres()
 
